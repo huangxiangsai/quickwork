@@ -71,20 +71,19 @@ Properties.prototype = {
 
 		switch(type){
 			case 'string':
-				callback(null,{result : contentline.join("|").replace(/\|/g, '\n')});
+				callback && callback(null,{result : contentline.join("|").replace(/\|/g, '\n')});
 				return contentline.join("|").replace(/\|/g, '\n');
 				break;
 			case 'json':
 				var data = {};
 				for(var i = 0 ; i < contentline.length ; i++){
-					
 					if((!this.regNote.test(contentline[i])) && contentline[i] != '' ){//过滤掉注释行 与 空的行
 						var key = contentline[i].split("=")[0];
 						var value = contentline[i].split('=')[1];
 						data[key] = value;
 					}			
 				}
-				callback(null,{result : data});
+				callback && callback(null,{result : data});
 				return data;
 				break;
 			case 'array':
@@ -93,14 +92,30 @@ Properties.prototype = {
 						result[index++] = contentline[i];
 					}			
 				}
-				callback(null,{result : result});
+				callback && callback(null,{result : result});
 				return result;
 				break;
 			default:
 				
 				break;
 		}
-		callback(["type error "],null);
+		callback && callback(["type error "],null);
+		return result;
+
+	},
+	serachOne : function(key, callback) {
+		var result = "";
+		var contentline = this.contentLine();
+		for(var i = 0 ; i < contentline.length ; i++){
+			if((!this.regNote.test(contentline[i])) && contentline[i] != '' ){//过滤掉注释行 与 空的行
+				var lkey = contentline[i].split("=")[0];
+				var value = contentline[i].split('=')[1];
+				if(lkey == key){
+					result = value;
+				}		
+			}			
+		}
+		callback && callback(null,result);
 		return result;
 
 	}
@@ -111,3 +126,9 @@ exports.pro = function (path) {
 	path = path || "test.properties";
 	return new Properties(path);
 }
+
+// test
+// var test = new Properties("test.properties");
+// test.serachOne('active',function(error , value){
+// 	console.log(value);
+// });
