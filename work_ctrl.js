@@ -14,9 +14,9 @@ var status = { //状态
 
 var ctrl = {
 	switch : function(value) {
-		var active = pro().serachOne('active'); //当前的目录 key
+		var active = pro().searchOne('active'); //当前的目录 key
  
-		var activeDir = pro().serachOne(value);
+		var activeDir = pro().searchOne(value);
 
 		//修改apache配置文件
 		var confPath = "D:\\tool\\PHP\\Apache24\\conf\\httpd.conf";
@@ -45,9 +45,16 @@ var ctrl = {
 		restartApache();
 	},
 	active : function() {
-		var active = pro().serachOne('active'); //当前的目录 key
-		var activeDir = pro().serachOne(active);
+		var active = pro().searchOne('active'); //当前的目录 key
+		var activeDir = pro().searchOne(active);
 		console.log("当前的项目目录是："+activeDir);
+	},
+	search : function() {
+		pro().search(null,function(error,data) {
+			if(!error){
+				console.log(data.result);
+			}
+		});
 	}
 		
 }
@@ -136,6 +143,5 @@ if(status.code != 200){
 	console.log(msg);
 	return ;
 }
-
 
 ctrl[param.handler](param.value);

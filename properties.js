@@ -63,7 +63,7 @@ Properties.prototype = {
 	 * @param  {[type]} type [返回的格式类型 默认string] 可以是 json  array 
 	 * @return {[type]}      [description]
 	 */
-	serach : function(type,callback) {
+	search: function(type,callback) {
 		type = type || 'string';
 		var contentline = this.contentLine();
 		var result = [];
@@ -103,7 +103,7 @@ Properties.prototype = {
 		return result;
 
 	},
-	serachOne : function(key, callback) {
+	searchOne : function(key, callback) {
 		var result = "";
 		var contentline = this.contentLine();
 		for(var i = 0 ; i < contentline.length ; i++){
